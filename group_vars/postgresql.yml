@@ -1,0 +1,4 @@
+---
+# common postgresql configs
+pguser: pguser
+pgpass: pgpass

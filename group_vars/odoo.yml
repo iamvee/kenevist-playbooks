@@ -1,0 +1,4 @@
+---
+# common odoo vars
+odoousername: "odoo"
+odoopassword: "odoo"
