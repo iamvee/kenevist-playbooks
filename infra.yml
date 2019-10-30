@@ -1,0 +1,9 @@
+- hosts: dev
+  remote_user: root
+  roles:
+    - geerlingguy.docker
+
+- hosts: dev
+  remote_user: root
+  roles:
+    - gitlab.docker_compose

@@ -1,0 +1,34 @@
+gitlab:
+  image: 'gitlab/gitlab-ce:latest'
+  restart: always
+  hostname: '{{ gitlab_host_name }}'
+  environment:
+    GITLAB_OMNIBUS_CONFIG: |
+      external_url 'http://{{ gitlab_host_name }}'
+      registry_external_url 'https://{{ gitlab_registry_url }}'
+      gitlab_rails['registry_enabled'] = true
+      letsencrypt['enable'] = false 
+      registry['enable'] = true
+      registry_nginx['enable'] = true
+      registry_nginx['listen_port'] = 5005
+      registry_nginx['listen_https'] = false
+      registry_nginx['proxy_set_headers'] = {
+        "X-Forwarded-Proto" => "https",
+        "X-Forwarded-Ssl" => "on"
+      }
+  ports:
+    - '{{ gitlab_ports_http }}:80'
+    - '{{ gitlab_ports_https }}:443'
+    - '{{ gitlab_ports_ssh }}:22'
+    - '{{ gitlab_ports_registry }}:5005'
+  volumes:
+    - '/gitlab/config:/etc/gitlab'
+    - '/gitlab/logs:/var/log/gitlab'
+    - '/gitlab/data:/var/opt/gitlab'
+gitlab-runner1:
+  image: gitlab/gitlab-runner:alpine
+  container_name: gitlab-runner1
+  hostname: gitlab-runner1
+  volumes:
+    - './gitlab-runner1-config:/etc/gitlab-runner:Z'
+    - '/var/run/docker.sock:/var/run/docker.sock'
