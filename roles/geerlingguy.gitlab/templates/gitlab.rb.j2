@@ -70,5 +70,43 @@ nginx['ssl_verify_client'] = "{{ gitlab_nginx_ssl_verify_client }}"
 nginx['ssl_client_certificate'] = "{{ gitlab_nginx_ssl_client_certificate }}"
 {% endif %}
 
+################################################################################
+## Container Registry settings
+##! Docs: https://docs.gitlab.com/ce/administration/container_registry.html
+################################################################################
+
+registry_external_url '{{ gitlab }}'
+
+### Settings used by GitLab application
+gitlab_rails['registry_enabled'] = {{ gitlab_registry_enable }}
+gitlab_rails['registry_host'] = "registry.gitlab.example.com"
+# gitlab_rails['registry_port'] = "5005"
+# gitlab_rails['registry_path'] = "/var/opt/gitlab/gitlab-rails/shared/registry"
+
+###! **Do not change the following 3 settings unless you know what you are
+###!   doing**
+# gitlab_rails['registry_api_url'] = "http://localhost:5000"
+# gitlab_rails['registry_key_path'] = "/var/opt/gitlab/gitlab-rails/certificate.key"
+# gitlab_rails['registry_issuer'] = "omnibus-gitlab-issuer"
+
+### Settings used by Registry application
+# registry['enable'] = true
+# registry['username'] = "registry"
+# registry['group'] = "registry"
+# registry['uid'] = nil
+# registry['gid'] = nil
+# registry['dir'] = "/var/opt/gitlab/registry"
+# registry['registry_http_addr'] = "localhost:5000"
+# registry['debug_addr'] = "localhost:5001"
+# registry['log_directory'] = "/var/log/gitlab/registry"
+# registry['env_directory'] = "/opt/gitlab/etc/registry/env"
+# registry['env'] = {}
+# registry['log_level'] = "info"
+# registry['rootcertbundle'] = "/var/opt/gitlab/registry/certificate.crt"
+# registry['health_storagedriver_enabled'] = true
+# registry['storage_delete_enabled'] = true
+
+
+
 # To change other settings, see:
 # https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/README.md#changing-gitlab-yml-settings
