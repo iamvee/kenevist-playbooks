@@ -75,7 +75,7 @@ nginx['ssl_client_certificate'] = "{{ gitlab_nginx_ssl_client_certificate }}"
 ##! Docs: https://docs.gitlab.com/ce/administration/container_registry.html
 ################################################################################
 
-registry_external_url '{{ gitlab }}'
+registry_external_url '{{ gitlab_registry_external_url }}'
 
 ### Settings used by GitLab application
 gitlab_rails['registry_enabled'] = {{ gitlab_registry_enable }}
