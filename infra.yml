@@ -1,7 +1,7 @@
 - hosts: dev
   remote_user: root
   roles:
-    - ansible-role-docker
-    - ansible-role-postgresql
+#    - ansible-role-docker
+#    - ansible-role-postgresql
     - bind
 
