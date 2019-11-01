@@ -1,0 +1,6 @@
+[submodule "roles/ansible-role-docker"]
+	path = roles/ansible-role-docker
+	url = https://github.com/geerlingguy/ansible-role-docker.git
+[submodule "roles/ansible-role-postgresql"]
+	path = roles/ansible-role-postgresql
+	url = https://github.com/geerlingguy/ansible-role-postgresql.git

@@ -1,9 +1,7 @@
 - hosts: dev
   remote_user: root
   roles:
-    - geerlingguy.docker
+    - bind
+    - docker
+    - postgresql
 
-- hosts: dev
-  remote_user: root
-  roles:
-    - gitlab.docker_compose
