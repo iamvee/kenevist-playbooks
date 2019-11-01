@@ -1,0 +1,12 @@
+[submodule "roles/ansible-role-docker"]
+	path = roles/ansible-role-docker
+	url = https://github.com/geerlingguy/ansible-role-docker.git
+[submodule "roles/ansible-role-postgresql"]
+	path = roles/ansible-role-postgresql
+	url = https://github.com/geerlingguy/ansible-role-postgresql.git
+[submodule "roles/bind/templates/--name"]
+	path = roles/bind/templates/--name
+	url = https://github.com/Kenevist/frigg.git
+[submodule "roles/bind/templates/frigg"]
+	path = roles/bind/templates/frigg
+	url = https://github.com/Kenevist/frigg.git

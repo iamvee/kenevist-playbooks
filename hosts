@@ -3,27 +3,16 @@ odin
 loki
 freya
 
-
-[dev-vms]
+[dev]
 freya
 
-
-[prod-vms]
+[prod]
 odin
-
 
 [vpn]
 loki
 
-
-[containers]
-gitlab
-runner
-registry
-traefik
-
-
-[asgard-vms]
+[asgard]
 tyr
 dev
 prod

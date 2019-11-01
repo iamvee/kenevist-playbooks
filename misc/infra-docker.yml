@@ -1,0 +1,18 @@
+- hosts: dev
+  remote_user: root
+  roles:
+    - geerlingguy.docker
+
+  tasks:
+    - shell: docker run -d -p 40022:22 -P --name gitlab_sshd rastasheep/ubuntu-sshd:18.04
+    - shell: docker exec gitlab_sshd passwd -d root
+    - shell: docker exec gitlab_sshd apt update -y
+    - shell: docker exec gitlab_sshd apt install python -y
+    - shell: docker cp ./.ssh/authorized_keys gitlab_sshd:/root/.ssh/authorized_keys
+
+
+- hosts: gitlab
+  remote_user: root
+  roles:
+    - geerlingguy.gitlab
+

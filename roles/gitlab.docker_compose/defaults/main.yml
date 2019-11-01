@@ -1,0 +1,9 @@
+---
+gitlab_host_name: "dev2.kenevist.ir"
+gitlab_registry_url: "reg.dev2.kenevist.ir"
+
+# exposed ports
+gitlab_ports_ssh: 1022
+gitlab_ports_registry: 5000
+gitlab_ports_http: 80
+gitlab_ports_https: 443 

@@ -1,0 +1,12 @@
+---
+- name: install git
+  shell: apt install git -y
+
+- name: clone Kenevist/frigg repository
+  git: 
+    repo: https://github.com/Kenevist/frigg.git
+    dest: /containers
+    update: yes
+  
+- name: run compose
+  shell: cd /containers/containers/bind && docker-compose up --build -d 
