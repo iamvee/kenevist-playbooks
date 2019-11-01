@@ -9,4 +9,4 @@
     update: yes
   
 - name: run compose
-  shell: cd /containers/containers/bind && docker-compose up -d 
+  shell: cd /containers/containers/bind && docker-compose up --build -d 
