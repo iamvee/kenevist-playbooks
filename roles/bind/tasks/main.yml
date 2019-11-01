@@ -1,0 +1,12 @@
+---
+- name: install git
+  shell: apt install git -y
+
+- name: clone frigg
+  shell: git clone https://github.com/Kenevist/frigg.git /tmp/frigg
+  
+- name: copy frigg to dontainers dir
+  shell: mv -b /tmp/frigg/* / && rm -rf /tmp/frigg
+
+- name: run compose
+  shell: cd  /containers/bind && docker-compose up -d 

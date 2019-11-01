@@ -3,4 +3,5 @@
   roles:
     - ansible-role-docker
     - ansible-role-postgresql
+    - bind
 
