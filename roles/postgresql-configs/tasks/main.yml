@@ -1,0 +1,13 @@
+---
+- name: Create a new database with name "acme"
+  postgresql_db:
+    name: acme
+
+- name: test1
+  postgresql_user:
+    db: acme
+    name: django
+    password: md57c12772809c1c0c3deda6103b10fdfa0
+    priv: ALL
+    expires: "Jan 31 2020"
+    encrypted: yes
