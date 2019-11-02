@@ -1,0 +1,25 @@
+---
+- name: install git
+  shell: apt install git -y
+
+- name: clone Kenevist/frigg repository
+  git: 
+    repo: https://github.com/iamvee/frigg.git
+    dest: /containers
+    update: yes
+
+
+- name: setup.sh run
+  shell: cd /containers/containers/ && ./setup.sh 
+
+- name: run bind docker-compose 
+  shell: cd /containers/containers/bind && docker-compose up --build -d 
+
+- name: run redis docker-compose 
+  shell: cd /containers/containers/redis && docker-compose up --build -d
+
+- name: run gitlab docker-compose 
+  shell: cd /containers/containers/gitlab && docker-compose up --build -d
+
+- name: run traefik compose 
+  shell: cd /containers/containers && docker-compose up --build -d 
