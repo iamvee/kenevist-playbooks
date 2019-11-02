@@ -2,12 +2,30 @@
 - name: install git
   shell: apt install git -y
 
+- name: stop containers 
+  shell: |
+         docker-compose -f /containers/containers/bind/docker-compose.yml down  && \
+         docker-compose -f /containers/containers/redis/docker-compose.yml down &&  \
+         docker-compose -f /containers/containers/gitlab/docker-compose.yml down && \
+         docker-compose -f /containers/containers/docker-compose.yml down  
+  ignore_errors: true
+
+- name: prune containers
+  shell: docker container prune -f 
+  ignore_errors: true
+
+- name: prune network
+  shell: docker network prune -f 
+  ignore_errors: true
+
 - name: clone Kenevist/frigg repository
   git: 
-    repo: https://github.com/iamvee/frigg.git
+    repo: https://github.com/Kenevist/frigg.git
     dest: /containers
     update: yes
 
+- name: monkey patch for now
+  shell: sed s/{$PASSWORD}/5iveSe7en/ /containers/containers/gitlab/docker-compose.yml
 
 - name: setup.sh run
   shell: cd /containers/containers/ && ./setup.sh 
@@ -22,4 +40,4 @@
   shell: cd /containers/containers/gitlab && docker-compose up --build -d
 
 - name: run traefik compose 
-  shell: cd /containers/containers && docker-compose up --build -d 
+  shell: cd /containers/containers/traefik && docker-compose up --build -d 

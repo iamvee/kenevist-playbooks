@@ -2,8 +2,8 @@
   remote_user: root
 #  gather_facts: no
   roles:
-    - ansible-role-docker
-    - ansible-role-postgresql
+#    - ansible-role-docker
+#    - ansible-role-postgresql
     - stacks
 
 
@@ -13,4 +13,4 @@
   become: true
   become_user: postgres
   roles:
-    - postgresql-configs
+#    - postgresql-configs
