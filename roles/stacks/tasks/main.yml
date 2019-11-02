@@ -3,41 +3,40 @@
   shell: apt install git -y
 
 - name: stop containers 
-  shell: |
-         docker-compose -f /containers/containers/bind/docker-compose.yml down  && \
-         docker-compose -f /containers/containers/redis/docker-compose.yml down &&  \
-         docker-compose -f /containers/containers/gitlab/docker-compose.yml down && \
-         docker-compose -f /containers/containers/docker-compose.yml down  
+  shell: docker-compose -f {{ frigg_repo_dir }}/{{ item }}/docker-compose.yml down
   ignore_errors: true
+  with_items:
+    - bind
+    - redis
+    - gitlab
+    - traefik
 
-- name: prune containers
-  shell: docker container prune -f 
+- name: prune containers and networks
+  shell: docker {{ item }} prune -f 
   ignore_errors: true
-
-- name: prune network
-  shell: docker network prune -f 
-  ignore_errors: true
+  with_items:
+    - container
+    - network 
 
 - name: clone Kenevist/frigg repository
   git: 
     repo: https://github.com/Kenevist/frigg.git
-    dest: /containers
+    dest: {{ frigg_repo_dir }}
     update: yes
 
 - name: monkey patch for now
-  shell: sed s/{$PASSWORD}/5iveSe7en/ /containers/containers/gitlab/docker-compose.yml
+  shell: sed s/{$PASSWORD}/5iveSe7en/ {{ frigg_repo_dir }}/gitlab/docker-compose.yml
 
-- name: setup.sh run
-  shell: cd /containers/containers/ && ./setup.sh 
+- name: Create a network
+  docker_network:
+    name: backend
 
-- name: run bind docker-compose 
-  shell: cd /containers/containers/bind && docker-compose up --build -d 
 
-- name: run redis docker-compose 
-  shell: cd /containers/containers/redis && docker-compose up --build -d
+- name: run docker-compose files
+  shell: docker-compose -f {{ frigg_repo_dir }}/{{ item }}/docker-compose.yml up --build -d 
+  with_items:
+    - bind
+    - redis
+    - gitlab
+    - traefik
 
-- name: run gitlab docker-compose 
-  shell: cd /containers/containers/gitlab && docker-compose up --build -d
-
-- name: run traefik compose 
-  shell: cd /containers/containers/traefik && docker-compose up --build -d 
