@@ -1,5 +1,0 @@
-- hosts: gitlab-container
-  remote_user: root
-  roles:
-    - geerlingguy.gitlab
-
