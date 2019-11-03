@@ -10,3 +10,6 @@
 [submodule "roles/bind/templates/frigg"]
 	path = roles/bind/templates/frigg
 	url = https://github.com/Kenevist/frigg.git
+[submodule "roles/postgresql"]
+	path = roles/postgresql
+	url = https://github.com/galaxyproject/ansible-postgresql.git
