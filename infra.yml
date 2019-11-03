@@ -1,6 +1,6 @@
 - hosts: dev
   remote_user: root
-#  gather_facts: no
+  gather_facts: no
   roles:
 #    - ansible-role-docker
 #    - ansible-role-postgresql
