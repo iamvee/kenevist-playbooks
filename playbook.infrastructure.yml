@@ -1,0 +1,16 @@
+- hosts: dev
+  remote_user: root
+#  gather_facts: no
+  roles:
+#    - ansible-role-docker
+#    - ansible-role-postgresql
+    - stacks
+
+
+- hosts: dev
+  remote_user: root
+#  gather_facts: no
+  become: true
+  become_user: postgres
+  roles:
+#    - postgresql-configs
