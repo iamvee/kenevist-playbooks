@@ -14,17 +14,10 @@ help: help-logo ## This help.
 .DEFAULT_GOAL := help
 
 
-all: infra  ## all playbooks at once
+all: infrastructure  ## all playbooks at once
 
 infrastructure:  ## run playbook for building infrastrucure services
-	@ansible-playbook -i ./servers/main.yml ./playbook.infrastructure.yml
-
-test:	## test playbook just for check
-	@ansible-playbook -i ./servers/main.yml ./playbook.test.yml
-
-
-ignore-test:	## test playbook just for check
-	@ansible-playbook -i ./servers/main.yml ./playbook.infrastructure.yml
+	@ansible-playbook -i ./servers/main.yml ./infrastructure.yml
 
 
 .PHONY: source destination clean test
