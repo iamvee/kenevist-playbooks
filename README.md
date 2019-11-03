@@ -4,5 +4,5 @@
 ## infra-env 
 
 ```shell
-$  ansible-playbook -i hosts infra.yml
+$ make infra
 ```
