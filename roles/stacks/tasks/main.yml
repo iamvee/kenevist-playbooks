@@ -25,6 +25,7 @@
     - bind
     - redis
     - gitlab
+    - registry
     - traefik
   when: frigg_dir.stat.exists 
 
@@ -56,11 +57,12 @@
     - bind
     - redis
 #    - gitlab
+    - registry
     - traefik
 
 - name: run gitlab docker-compose gitlab
-  shell: cd {{ frigg_repo_dir }}/gitlab && docker-compose up --build -d
+  shell: env && cd {{ frigg_repo_dir }}/gitlab && docker-compose up --build -d
   environment:
-    GITLAB_DB_USER: jafar
-    GITLAB_DB_PASS: jafarjafar
-    GITLAB_DB_NAME: jafardb
+    GITLAB_DB_USER: "jafar"
+    GITLAB_DB_PASS: "jafarjafar"
+    GITLAB_DB_NAME: "jafardb"

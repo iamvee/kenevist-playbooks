@@ -1,5 +1,4 @@
-frigg_repo_dir: /containers
-
+db_pass: "123456789"
 
 git_repo_src: "https://github.com/iamvee/frigg.git"
 git_repo_dest: "/root/repos/frigg"
@@ -12,20 +11,12 @@ templated_file_group: root
 templated_file_mode: 0600
 
 
-
-traefik_defaults:
-  domain: "kenevist.ir"
-  email: "kenevist@gmail.com"
-
-whoami_defaults:
-  domain: "whoami.kenevist.ir"
-
 gitlab_defaults:
   image:
     name: "sameersbn/gitlab"
-    tag: "12.4.0"    
-
-ports:
+    tag: "12.4.0"
+    
+  ports:
     http: 10080
     ssh: 10022
 

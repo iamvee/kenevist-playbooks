@@ -1,0 +1,22 @@
+---
+- name: clone repo on remote hosts
+  git:
+    repo: "{{ git_repo_src }}"
+    dest: "{{ git_repo_dest }}"
+    version: "jinja-templates"
+- name: fetch template from single remote host
+  run_once: true
+  fetch:
+    src: "{{ template_path }}/{{ template_file }}"
+    dest: "/tmp/{{ template_file }}"
+    flat: yes
+    fail_on_missing: yes
+
+- name: template remote hosts
+  template:
+    src: "/tmp/{{ template_file }}"
+    dest: "{{ templated_file_dest }}"
+    owner: "{{ templated_file_owner }}"
+    group: "{{ templated_file_group }}"
+    mode: "{{ templated_file_mode }}"
+    
