@@ -1,49 +1,28 @@
 ---
-- name: install git
+- name: Install git
   shell: apt install git -y
 
 
-- name: check containers exists
+- name: Check containers exists
   stat: 
     path: "{{ frigg_repo_dir}}"
   register: frigg_dir
 
-- name: check it is a git repo
-  stat: 
-    path: "{{ frigg_repo_dir}}/.git/config"
-  register: frigg_git
 
-
-- name: delete dir
-  shell: rm -rf "{{ frigg_repo_dir}}"
-  when: frigg_dir.stat.exists and frigg_git.stat.exists == false
-
-- name: stop containers 
-  shell: docker-compose -f "{{ frigg_repo_dir }}/{{ item }}/docker-compose.yml" down
+- name: Stop containers 
+  shell: docker-compose -f "{{ build_path }}/{{ item }}/docker-compose.yml" down
   ignore_errors: true
-  with_items:
-    - bind
-    - redis
-    - gitlab
-    - registry
-    - traefik
   when: frigg_dir.stat.exists 
+  with_items:
+    [bind, redis, gitlab, registry, traefik]
 
-- name: prune containers and networks
+
+- name: Prune containers and networks
   shell: docker {{ item }} prune -f 
   ignore_errors: true
   with_items:
     - container
     - network 
-
-- name: clone Kenevist/frigg repository
-  git: 
-    repo: https://github.com/Kenevist/frigg.git
-    dest: "{{ frigg_repo_dir }}"
-    update: yes
-
-#- name: monkey patch for now
-#  shell: sed s/${PASSWORD}/5iveSe7en/ "{{ frigg_repo_dir }}/gitlab/docker-compose.yml"
 
 - name: Create a network
   shell: docker network create {{ item }}
@@ -51,18 +30,46 @@
     - backend
     - web
 
-- name: run docker-compose files
-  shell: docker-compose -f "{{ frigg_repo_dir }}/{{ item }}/docker-compose.yml" up --build -d 
+- name: Clone {{ git_repo_src }}  {{ git_repo_version }}" on remote hosts
+  git:
+    repo: "{{ git_repo_src }}"
+    dest: "{{ git_repo_dest }}"
+    version: "{{ git_repo_version }}"
+
+
+- name: Copy bind data
+  shell: cp -R "{{ git_repo_dest }}/bind/"  "{{ build_path }}/bind/"
+
+
+
+- name: fetch "*.{{ template_suffix }}" template 
+  run_once: true
+  fetch:
+    src: "{{ template_repo_dest }}/{{ item }}/docker-compose.ymlj2"
+    dest: "/tmp/{{ build_path }}/{{ item }}/docker-compose.yml.j2.temp"
+    flat: yes
+    fail_on_missing: yes
   with_items:
-    - bind
-    - redis
-#    - gitlab
-    - registry
-    - traefik
+    [bind, redis, gitlab, registry, traefik]
+
+
+- name: template remote hosts
+  template:
+    src: "/tmp/{{ build_path }}/{{ item }}/docker-compose.yml.j2.temp"    
+    dest: "{{ build_path }}/{{ item }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: 0600
+  with_items:
+    [bind, redis, gitlab, registry, traefik]
+
+
+- name: run docker-compose files
+  shell: docker-compose -f "{{ build_path }}/{{ item }}/docker-compose.yml" up --build -d 
+  with_items:
+    [bind, redis, registry, traefik]
+
+
 
 - name: run gitlab docker-compose gitlab
-  shell: env && cd {{ frigg_repo_dir }}/gitlab && docker-compose up --build -d
-  environment:
-    GITLAB_DB_USER: "jafar"
-    GITLAB_DB_PASS: "jafarjafar"
-    GITLAB_DB_NAME: "jafardb"
+  shell: cd "{{ build_path }}/gitlab" && docker-compose up --build -d

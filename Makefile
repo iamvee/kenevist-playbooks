@@ -23,4 +23,8 @@ test:	## test playbook just for check
 	@ansible-playbook -i ./servers/main.yml ./playbook.test.yml
 
 
+ignore-test:	## test playbook just for check
+	@ansible-playbook -i ./servers/main.yml ./playbook.infrastructure.yml
+
+
 .PHONY: source destination clean test

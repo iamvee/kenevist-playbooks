@@ -1,12 +1,6 @@
 dev:		
   hosts:
-    1.1.1.240
-    1.1.1.152
-
-asgard:
-  children:
-    frigg:
-      hosts:
+    82.102.10.240
 
 
 

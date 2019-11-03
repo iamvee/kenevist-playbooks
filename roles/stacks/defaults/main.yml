@@ -2,15 +2,16 @@ frigg_repo_dir: /containers
 
 
 git_repo_src: "https://github.com/iamvee/frigg.git"
-git_repo_dest: "/root/repos/frigg"
-template_path: "{{ git_repo_dest }}/gitlab"
-template_file: "docker-compose.yml.j2"
+git_repo_dest: "/tmp/repositories/frigg/"
+git_repo_version: "jinja-templates"
+
+template_suffix: "j2"
+template_file: ".{{ template_suffix }}"
+
+build_path: "/containers"
+
 
 templated_file_dest: "/root/build/docker-compose.yml"
-templated_file_owner: root
-templated_file_group: root
-templated_file_mode: 0600
-
 
 
 traefik_defaults:
@@ -25,7 +26,7 @@ gitlab_defaults:
     name: "sameersbn/gitlab"
     tag: "12.4.0"    
 
-ports:
+  ports:
     http: 10080
     ssh: 10022
 
