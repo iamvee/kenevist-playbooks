@@ -1,0 +1,24 @@
+- hosts: dev
+  remote_user: root
+  roles:
+    - ansible-role-docker
+    - ansible-role-postgresql
+    - stacks
+
+
+- hosts: dev
+  remote_user: root
+  vars:
+    postgresql_version: 11
+    postgresql_conf:
+      - listen_addresses: "'localhost,185.252.31.110,127.0.0.1'"   
+      - max_connections: 50 
+    postgresql_pg_hba_conf:
+      - host all all 185.252.31.110 md5
+  roles:
+    - postgresql
+
+- hosts: dev
+  remote_user: root
+  roles:
+    - stacks
