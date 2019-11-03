@@ -14,7 +14,11 @@
   ignore_errors: true
   when: frigg_dir.stat.exists 
   with_items:
-    [bind, redis, gitlab, registry, traefik]
+    - bind
+    - redis
+    - gitlab
+    - registry
+    - traefik
 
 
 - name: Prune containers and networks
@@ -42,7 +46,7 @@
 
 
 
-- name: fetch "*.{{ template_suffix }}" template 
+- name: fetch jinja template 
   run_once: true
   fetch:
     src: "{{ template_repo_dest }}/{{ item }}/docker-compose.ymlj2"
@@ -50,7 +54,11 @@
     flat: yes
     fail_on_missing: yes
   with_items:
-    [bind, redis, gitlab, registry, traefik]
+    - bind
+    - redis
+    - gitlab
+    - registry
+    - traefik
 
 
 - name: template remote hosts
@@ -61,14 +69,20 @@
     group: root
     mode: 0600
   with_items:
-    [bind, redis, gitlab, registry, traefik]
+    - bind
+    - redis
+    - gitlab
+    - registry
+    - traefik
 
 
 - name: run docker-compose files
   shell: docker-compose -f "{{ build_path }}/{{ item }}/docker-compose.yml" up --build -d 
   with_items:
-    [bind, redis, registry, traefik]
-
+    - bind
+    - redis
+    - registry
+    - traefik
 
 
 - name: run gitlab docker-compose gitlab
